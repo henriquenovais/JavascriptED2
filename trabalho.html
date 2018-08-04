@@ -1,0 +1,208 @@
+<!DOCTYPE = html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <center>
+    <h1> HeapSort - Unidade II</h1>
+	<br><br>
+	<h3>1) Clique para imprimir os vetores aleatórios gerados:</h3>
+	<button onclick="alert(aleatorio(dez))"> Vetor[10] </button>
+	<button onclick="alert(aleatorio(cem))"> Vetor[100] </button>
+	<button onclick="alert(aleatorio(mil))">Vetor[1000]</button>
+    <br><br>    
+    <h3>2) Clique para ordenar os vetores aleatórios gerados:</h3>
+	<button onclick="alert(heapSort(dez))">OrdenarVetor[10]</button> 
+	<button onclick="alert(heapSort(cem))">OrdenarVetor[100]</button>
+	<button onclick="alert(heapSort(mil))">OrdenarVetor[1000]</button>  
+    <br><br>
+    <h3>3) Clique para saber quantas comparações foram feitas ao ordernar os vetores:</h3>
+    <button onclick="alert(heapSortCount(dez))">Comparações ordenação Vetor[10]</button>
+    <button onclick="alert(heapSortCount(cem))">Comparações ordenação Vetor[100]</button>
+    <button onclick="alert(heapSortCount(mil))">Comparações ordenação Vetor[1000]</button>
+    <br><br>
+    <h2>4) Ordenar 60 vetores aleatórios de tamanhos 10, 100 e 1000 mostrando o número de comparações realizadas em todas as ordenações juntas:</h2>
+	<button onclick="alert(trabalho(dez,cem,mil))"><b> ABRA-TE SÉSAMO!</b></button>
+        
+    
+    </center>
+    <script>
+        
+        var dez = new Array(10);
+        var cem = new Array(100);
+        var mil = new Array(1000);
+        
+        
+     //Troca de elementos em um array 
+      function swap(array, firstIndex, secondIndex) {
+        var temp = array[firstIndex];
+        array[firstIndex] = array[secondIndex];
+        array[secondIndex] = temp;
+      }
+        
+      //Construção do monte máximo
+      function maxHeap(array, i) {
+        var l = 2 * i;
+        var r = l + 1;
+        var largest;
+        if (l < array.heapSize && array[l] > array[i]) {
+          largest = l;
+        } else {
+          largest = i;
+        }
+        if (r < array.heapSize && array[r] > array[largest]) {
+          largest = r;
+        }
+        if (largest != i) {
+          swap(array, i, largest);
+          maxHeap(array, largest);
+        }
+      }
+        
+     //Construção do monte   
+      function buildHeap(array) {
+        array.heapSize = array.length;
+        for (var i = Math.floor(array.length / 2); i >= 0; i--) {
+          maxHeap(array, i);
+        }
+      }
+        
+    //Heapsort
+        
+    function heapSort(array) {
+    
+      buildHeap(array);
+      for (var i = array.length-1; i >= 1; i--) {
+        swap(array, 0, i);
+        array.heapSize--;
+        maxHeap(array, 0);
+
+        
+      }
+        return array;
+    }
+        
+    // funcao que gera numeros aleatorios para o vetor   
+    function aleatorio(vetor){ 
+		var temp;
+		
+		for(var i = 0; i< vetor.length; i++){
+			temp = Math.floor(Math.random() * 10000);
+			vetor[i] = temp;
+		}
+
+		return vetor;
+
+	}  
+        
+    //métodos para a contagem de comparações realizadas
+    
+     //Troca de elementos em um array 
+      function swapCount(array, firstIndex, secondIndex) { n++;
+        var n = 0; n++;
+        var temp = array[firstIndex];  n++;
+        array[firstIndex] = array[secondIndex];n++;
+        array[secondIndex] = temp;n++;
+                                                          
+       return n;                                                 
+                                                          
+      } 
+        
+      //Construção do monte máximo
+      function maxHeapCount(array, i) {
+        var n = 0; n++;
+        var l = 2 * i; n++;
+        var r = l + 1; n++;
+        var largest; n++;
+        if (l < array.heapSize && array[l] > array[i]) {
+            n++;
+          largest = l; n++;
+        } else {n++;
+          largest = i; n++;
+        }
+        if (r < array.heapSize && array[r] > array[largest]) {
+            n++;
+          largest = r; n++;
+        }
+        if (largest != i) { n++;
+          n = n + swapCount(array, i, largest); n++;
+          n = n + maxHeapCount(array, largest); n++;
+        }
+          
+       return n;   
+      }
+        
+     //Construção do monte   
+      function buildHeapCount(array) {
+        var n = 0; n++;
+        array.heapSize = array.length; n++;
+        for (var i = Math.floor(array.length / 2); i >= 0; i--) {
+            n++;
+         n = n + maxHeapCount(array, i); n++;
+        }
+          return n;
+      }
+        
+    //Heapsort
+        
+    function heapSortCount(array) {
+      var n = 0; n++;
+      n = n + buildHeapCount(array); n++; 
+      for (var i = array.length-1; i >= 1; i--) {
+          n++;
+        n = n + swapCount(array, 0, i); n++;
+        array.heapSize--; n++;
+        n = n + maxHeapCount(array, 0); n++;
+
+        
+      }
+        return n;
+    }
+    
+    function trabalho(vetor1, vetor2, vetor3){
+        var m = 0;
+        
+        for(var z = 0; z < 20; z++){
+            vetor1 = aleatorio(vetor1);
+            m = m + heapSortCount(vetor1);
+            vetor2 = aleatorio(vetor2);
+            m = m + heapSortCount(vetor2);
+            vetor3 = aleatorio(vetor3);
+            m = m + heapSortCount(vetor3);
+        } 
+         return m;
+	}
+        
+    </script> 
+    <br><br>
+    <h2>5) Tabela de análise de desempenho:</h2>
+    <table id="tabela" cellpadding="2" cellspacing="2" border="1" onclick="tester()"></table></center>
+            
+    <script>
+            var student = {
+                    name: "Name",
+                    rank: "Rank",
+                    stuclass: "Class",
+                };
+
+                var table = document.getElementById("tabela");
+                var header = table.createTHead();
+                var row1 = header.insertRow(0);
+                var row2 = table.insertRow(0);
+                var cell0 = row1.insertCell(0);
+                var cell1 = row1.insertCell(0);
+                var cell2 = row1.insertCell(1);
+                var cell3 = row1.insertCell(2);
+                
+                
+                cell1.innerHTML = student.name,
+                cell2.innerHTML = student.rank,
+                cell3.innerHTML = student.stuclass;
+                cell0.innerHTML = "<b>Análise de Desempenho</b>"
+           
+     </script>
+</body>
+
+</html>
