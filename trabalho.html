@@ -2,28 +2,33 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Henrique Novais Nunes de Oliveira e Paulo Luiz Ferreira da Cruz">
+
 </head>
 
 <body>
     <center>
     <h1> HeapSort - Unidade II</h1>
+    <h5>Por: Henrique Novais Nunes de Oliveira e Paulo Luiz Ferreira da Cruz</h5>
+    <a href="https://github.com/henriquenovais/JavascriptED2" target= "_blank"> >>>Disponível aqui<<< </a> 
+	<hr>
 	<br><br>
-	<h3>1) Clique para imprimir os vetores aleatórios gerados:</h3>
+	<h3>Passo 1) Clique para imprimir os vetores aleatórios gerados:</h3>
 	<button onclick="alert(aleatorio(dez))"> Vetor[10] </button>
 	<button onclick="alert(aleatorio(cem))"> Vetor[100] </button>
 	<button onclick="alert(aleatorio(mil))">Vetor[1000]</button>
     <br><br>    
-    <h3>2) Clique para ordenar os vetores aleatórios gerados:</h3>
+    <h3>Passo 2) Clique para ordenar os vetores aleatórios gerados:</h3>
 	<button onclick="alert(heapSort(dez))">OrdenarVetor[10]</button> 
 	<button onclick="alert(heapSort(cem))">OrdenarVetor[100]</button>
 	<button onclick="alert(heapSort(mil))">OrdenarVetor[1000]</button>  
     <br><br>
-    <h3>3) Clique para saber quantas comparações foram feitas ao ordernar os vetores:</h3>
+    <h3>Passo 3) Clique para saber quantas comparações foram feitas ao ordernar os vetores:</h3>
     <button onclick="alert(heapSortCount(dez))">Comparações ordenação Vetor[10]</button>
     <button onclick="alert(heapSortCount(cem))">Comparações ordenação Vetor[100]</button>
     <button onclick="alert(heapSortCount(mil))">Comparações ordenação Vetor[1000]</button>
     <br><br>
-    <h2>4) Ordenar 60 vetores aleatórios de tamanhos 10, 100 e 1000 mostrando o número de comparações realizadas em todas as ordenações juntas:</h2>
+    <h2>Passo 4) Ordenar 60 vetores aleatórios de tamanhos 10(20 vetores), 100(20 vetores) e 1000(20 vetores) mostrando o número de comparações realizadas em todas as ordenações juntas:</h2>
 	<button onclick="alert(trabalho(dez,cem,mil))"><b> ABRA-TE SÉSAMO!</b></button>
         
     
@@ -176,33 +181,112 @@
 	}
         
     </script> 
+
     <br><br>
-    <h2>5) Tabela de análise de desempenho:</h2>
-    <table id="tabela" cellpadding="2" cellspacing="2" border="1" onclick="tester()"></table></center>
+	<center>
+    <h2> Tabela de análise de desempenho de ordenações análogas as realizadas no passo 4:</h2>
+    <table id="tabela" cellpadding="2" cellspacing="2" border="1"></table>
+	</center>
+
+	<style>
+
+	table, th, td, tr {
+		text-align: center;
+	}
+	</style>
             
     <script>
-            var student = {
-                    name: "Name",
-                    rank: "Rank",
-                    stuclass: "Class",
-                };
+    		//relacionando javascript com o elemento de id = tabela que está em HTML 
+            var table = document.getElementById("tabela"); 
+            //criando cabeçalho da tabela
+            var header = table.createTHead(); 
 
-                var table = document.getElementById("tabela");
-                var header = table.createTHead();
-                var row1 = header.insertRow(0);
-                var row2 = table.insertRow(0);
-                var cell0 = row1.insertCell(0);
-                var cell1 = row1.insertCell(0);
-                var cell2 = row1.insertCell(1);
-                var cell3 = row1.insertCell(2);
+            // criando linhas , inserindo celulas e preenchendo celulas 
+            var row0 = header.insertRow(0);  
+            var cell0 = row0.insertCell(0);
+            var cell1 = row0.insertCell(1);
+
+            row0.innerHTML = "<td colspan='2'><b>Desempenho do Algoritmo Heapsort</b></td>" ;
+
+            var row1 = table.insertRow(1);
+            var cell1 = row1.insertCell(0);
+            var cell2 = row1.insertCell(1);
+      
+
+            cell1.innerHTML = "<b> Vetores </b>" ;
+            cell2.innerHTML = "<b> Número de instâncias </b>" ;
+     
+
+            //gerando vetores e utilizando método de aleatoriedade para modifica-los
+            var nome = "Vetor";
+            var desempenhos = Array (60);
+            var contador = 0;
+            var vetor1 = Array(10);
+            var vetor2 = Array(100);
+            var vetor3 = Array(1000);
+         
+
+            for(var j = 0; j < 20 ; j++){
+
+            	 vetor1 = aleatorio(vetor1);
+            	 desempenhos[contador] = heapSortCount(vetor1);
+            	 contador++;
+            }
+            for(var j = 0; j < 20 ; j++){
+
+            	 vetor2 = aleatorio(vetor2);
+            	 desempenhos[contador] = heapSortCount(vetor2);
+            	 contador++;
+            }
+            for(var j = 0; j < 20 ; j++){
+
+            	 vetor3 = aleatorio(vetor3);
+            	 desempenhos[contador] = heapSortCount(vetor3);
+            	 contador++;
+            }
+
+         //criando a tabela extensa com as instâncias de cada vetor utilizando os mesmos métodos anteriores
+    	for(var j = 0; j < 60; j++){
+    	   var row = table.insertRow(2);
+           var cell3 = row.insertCell(0);
+           var cell4 = row.insertCell(1);
+           cell3.innerHTML = "Vetor " + j;
+           cell4.innerHTML = desempenhos[j] ;
+
+    	}
+
+    	   var row = table.insertRow(62);
+           var cell3 = row.insertCell(0);
+           var cell4 = row.insertCell(1);
+           cell3.innerHTML = "Soma de instâncias:";
+           var soma_des = 0;
+
+           for(var j = 0;j < 60; j++){
+           		soma_des = desempenhos[j] + soma_des;
+           }
+           cell4.innerHTML = "<b><i>" + soma_des + "</b></i>" ;
+
+            
+            
+
+            
+
+            //vetor1 = aleatorio(vetor1);
+
+
+            //vetor_tabela.k = heapSortCount(vetor1);
                 
-                
-                cell1.innerHTML = student.name,
-                cell2.innerHTML = student.rank,
-                cell3.innerHTML = student.stuclass;
-                cell0.innerHTML = "<b>Análise de Desempenho</b>"
+
+            //var row = table.insertRow(2);
+            //var cell3 = row.insertCell(0);
+            //var cell4 = row.insertCell(1);
+
+            //cell3.innerHTML = vetor_tabela.name ;
+            //cell4.innerHTML = vetor_tabela.k ; 
+            
            
      </script>
+     </center>
 </body>
 
 </html>
